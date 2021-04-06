@@ -12,23 +12,24 @@ http://www.freeutils.net/source/jtnef/.
 
 ```go
 package main
-import (
 
-	"io/ioutil"
-	"os"
-	"github.com/teamwork/tnef"
+import (
+    "io/ioutil"
+    "os"
+
+    "github.com/teamwork/tnef"
 )
 
 func main() {
-	t, err := tnef.DecodeFile("./winmail.dat")
-	if err != nil {
-		return
-	}
-	wd, _ := os.Getwd()
-	for _, a := range t.Attachments {
-		ioutil.WriteFile(wd+"/"+a.Title, a.Data, 0777)
-	}
-	ioutil.WriteFile(wd+"/bodyHTML.html", t.BodyHTML, 0777)
-	ioutil.WriteFile(wd+"/bodyPlain.html", t.Body, 0777)
+    t, err := tnef.DecodeFile("./winmail.dat")
+    if err != nil {
+        return
+    }
+    wd, _ := os.Getwd()
+    for _, a := range t.Attachments {
+        ioutil.WriteFile(wd+"/"+a.Title, a.Data, 0777)
+    }
+    ioutil.WriteFile(wd+"/bodyHTML.html", t.BodyHTML, 0777)
+    ioutil.WriteFile(wd+"/bodyPlain.html", t.Body, 0777)
 }
 ```

@@ -1,3 +1,6 @@
+// Copyright (C) 2016-2018 Teamwork.com
+// All rights reserved.
+
 package tnef
 
 import "fmt"

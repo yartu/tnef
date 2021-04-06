@@ -1,5 +1,9 @@
+// Copyright (C) 2016-2018 Teamwork.com
+// All rights reserved.
+
 // Package tnef extracts the body and attachments from Microsoft TNEF files.
-package tnef // import "github.com/teamwork/tnef"
+
+package tnef
 
 import (
 	"errors"
