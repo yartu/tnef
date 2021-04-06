@@ -1,4 +1,4 @@
-module github.com/teamwork/tnef
+module github.com/hatching/tnef
 
 go 1.15
 
