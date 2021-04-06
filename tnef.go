@@ -116,8 +116,11 @@ func Decode(data []byte) (*Data, error) {
 		Attachments: []*Attachment{},
 	}
 
-	for offset < len(data) {
-		obj := decodeTNEFObject(data[offset:])
+	for {
+		obj, ok := decodeTNEFObject(data[offset:])
+		if ok == false {
+			break
+		}
 		offset += obj.Length
 
 		if obj.Name == ATTATTACHRENDDATA {
@@ -147,22 +150,30 @@ func Decode(data []byte) (*Data, error) {
 	return tnef, nil
 }
 
-func decodeTNEFObject(data []byte) (object tnefObject) {
-	offset := 0
+func decodeTNEFObject(data []byte) (object tnefObject, ok bool) {
+	if len(data) < 9 {
+		return
+	}
 
+	var offset int
 	object.Level = byteToInt(data[offset : offset+1])
-	offset++
+	offset += 1
 	object.Name = byteToInt(data[offset : offset+2])
 	offset += 2
 	object.Type = byteToInt(data[offset : offset+2])
 	offset += 2
 	attLength := byteToInt(data[offset : offset+4])
 	offset += 4
+
+	if offset+attLength+2 > len(data) {
+		return
+	}
 	object.Data = data[offset : offset+attLength]
 	offset += attLength
 	//checksum := byteToInt(data[offset : offset+2])
 	offset += 2
 
 	object.Length = offset
+	ok = true
 	return
 }
