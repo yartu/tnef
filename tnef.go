@@ -66,6 +66,7 @@ type tnefObject struct {
 // within the TNEF file, with the name and data of the file extracted.
 type Attachment struct {
 	Title string
+	Size  int
 	Data  []byte
 }
 
@@ -88,6 +89,7 @@ func (a *Attachment) addAttr(obj tnefObject) {
 		a.Title = strings.Replace(string(obj.Data), "\x00", "", -1)
 	case ATTATTACHDATA:
 		a.Data = obj.Data
+		a.Size = len(obj.Data)
 	}
 }
 
@@ -118,7 +120,7 @@ func Decode(data []byte) (*Data, error) {
 
 	for {
 		obj, ok := decodeTNEFObject(data[offset:])
-		if ok == false {
+		if !ok {
 			break
 		}
 		offset += obj.Length
