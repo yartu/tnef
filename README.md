@@ -17,7 +17,7 @@ import (
     "io/ioutil"
     "os"
 
-    "github.com/hatching/tnef"
+    "github.com/yartu/tnef"
 )
 
 func main() {

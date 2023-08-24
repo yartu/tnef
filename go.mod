@@ -1,8 +1,8 @@
-module github.com/hatching/tnef
+module github.com/yartu/tnef
 
-go 1.15
+go 1.20
 
 require (
 	github.com/teamwork/test v0.0.0-20200108114543-02621bae84ad
-	github.com/teamwork/utils v0.0.0-20200714085143-9e9a9a82bda9
+	github.com/teamwork/utils v1.0.0
 )
