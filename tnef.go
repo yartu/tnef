@@ -6,6 +6,7 @@
 package tnef
 
 import (
+	"encoding/binary"
 	"errors"
 	"io/ioutil"
 	"strings"
@@ -81,6 +82,7 @@ type Data struct {
 	BodyHTML    []byte
 	Attachments []*Attachment
 	Attributes  []MAPIAttribute
+	Charset     string
 }
 
 func (a *Attachment) addAttr(obj tnefObject) {
@@ -128,6 +130,9 @@ func Decode(data []byte) (*Data, error) {
 		if obj.Name == ATTATTACHRENDDATA {
 			attachment = new(Attachment)
 			tnef.Attachments = append(tnef.Attachments, attachment)
+		} else if obj.Name == ATTOEMCODEPAGE {
+			code := binary.LittleEndian.Uint32(obj.Data)
+			tnef.Charset = GetCharset(code)
 		} else if obj.Level == lvlAttachment {
 			attachment.addAttr(obj)
 		} else if obj.Name == ATTMAPIPROPS {
